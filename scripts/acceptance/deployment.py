@@ -61,13 +61,14 @@ def deploy(ledger, project, image, model_run_id):
         ledger.background("loadbalancer-provider", [provider])
     manifest_dir = ledger.output / "deployment"
     manifest_dir.mkdir(exist_ok=True)
+    manifest_args = []
     for name in ["namespace", "deployment", "service"]:
         value = yaml.safe_load((Path(project) / f"deployment/kubernetes/{name}.yaml").read_text())
         if name == "deployment":
             value["spec"]["template"]["spec"]["containers"][0]["image"] = image
-        (manifest_dir / f"{name}.yaml").write_text(
-            yaml.safe_dump(value, sort_keys=False), encoding="utf-8"
-        )
+        manifest_path = manifest_dir / f"{name}.yaml"
+        manifest_path.write_text(yaml.safe_dump(value, sort_keys=False), encoding="utf-8")
+        manifest_args.extend(["-f", manifest_path])
 
     def kubectl(*args):
         return ["kubectl", "--context", context, "--request-timeout=30s", *args]
@@ -87,9 +88,9 @@ def deploy(ledger, project, image, model_run_id):
     ledger.command("namespace", kubectl("apply", "-f", manifest_dir / "namespace.yaml"))
     ledger.command(
         "server-validation",
-        kubectl("apply", "--dry-run=server", "--validate=strict", "-f", manifest_dir),
+        kubectl("apply", "--dry-run=server", "--validate=strict", *manifest_args),
     )
-    ledger.command("apply", kubectl("apply", "-f", manifest_dir))
+    ledger.command("apply", kubectl("apply", *manifest_args))
     ledger.command(
         "rollout",
         [
