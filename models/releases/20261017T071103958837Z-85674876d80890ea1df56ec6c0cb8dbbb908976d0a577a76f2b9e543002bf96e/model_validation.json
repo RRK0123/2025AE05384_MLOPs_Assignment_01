@@ -1,0 +1,23 @@
+{
+  "run_id": "20261017T071103958837Z",
+  "model_files_sha256": {
+    "model.joblib": "1dce5717ccfa244993bae850762f4bb1410a8e8c17016d10fa0665d9b4246605",
+    "metadata.json": "ab51a2da1d90171e1ff248487888d5cfb923f5c3610c8d7f8a6c8dda9d0d3290",
+    "feature_schema.json": "ff2d25421a223dedb27a6da750aa518ef388fbb7f15a6365d8240e4521a0b832"
+  },
+  "model_checksums_verified": true,
+  "no_test_rows_in_nested_or_final_cv": true,
+  "fold_coverage_verified": true,
+  "all_candidate_search_metrics_finite": true,
+  "tuning_tables_and_selected_parameters_reconciled": true,
+  "fitted_classifier_parameters_match_tuning": true,
+  "selected_by_outer_cv_only": true,
+  "outer_cv_predictions_labels_and_folds_verified": true,
+  "outer_cv_fold_metrics_recomputed": true,
+  "outer_cv_summary_and_selection_recomputed": true,
+  "training_fitted_preprocessing_verified": true,
+  "reported_test_metrics_reproduced_from_saved_predictions": true,
+  "model_test_predictions_verified": true,
+  "reported_test_metrics_reproduced_from_saved_model": true,
+  "inference_smoke_check_passed": true
+}

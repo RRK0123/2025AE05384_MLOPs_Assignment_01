@@ -1,0 +1,8 @@
+# Training/EDA, automated tests, and code checks for development and CI.
+-r requirements-train.txt
+-r requirements-api.txt
+httpx==0.28.1
+httpcore==1.0.9
+pytest==9.1.1
+ruff==0.17.0
+-r requirements-suite-tools.txt

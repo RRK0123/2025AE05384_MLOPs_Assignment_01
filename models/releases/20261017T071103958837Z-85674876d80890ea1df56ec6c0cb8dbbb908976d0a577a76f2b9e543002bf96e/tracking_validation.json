@@ -1,0 +1,20 @@
+{
+  "training_session": "20261017T071103958837Z",
+  "parent_run_id": "ef91491617354673bc0a54a0005ec791",
+  "experiment_name": "heart-disease-classification",
+  "run_count": 102,
+  "phase_counts": {
+    "search_candidate": 84,
+    "final_model": 2,
+    "outer_fold": 15,
+    "training_session": 1
+  },
+  "all_finished": true,
+  "all_runs_have_parameters_metrics_artifacts_plots": true,
+  "candidate_fold_histories_verified": true,
+  "tuning_tables_parameters_histories_and_artifacts_reconciled": true,
+  "outer_cv_predictions_and_reports_reconciled": true,
+  "outer_cv_tracking_metrics_reconciled": true,
+  "parent_test_metrics_match_report": true,
+  "both_final_models_logged_and_roundtrip_verified": true
+}

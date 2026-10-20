@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "jobs": 2,
+  "load_requests": 80,
+  "load_concurrency": 4,
+  "bootstrap_samples": 500,
+  "seed": 42,
+  "monitoring": {
+    "minimum_labeled_records": 50,
+    "minimum_per_class": 20,
+    "recall_drop": 0.1,
+    "roc_auc_drop": 0.1,
+    "numeric_ks_threshold": 0.25,
+    "categorical_total_variation_threshold": 0.2,
+    "maximum_error_rate": 0.01,
+    "maximum_p95_latency_ms": 2000,
+    "policy_scope": "Educational replay demonstration; thresholds are not clinical criteria. Drift alone requests investigation."
+  },
+  "submission": {
+    "student_name": "Krishna R R",
+    "student_id": "2025AE05384",
+    "course": "MLOps Assignment 1",
+    "repository_url": "https://github.com/RRK0123/2025AE05384_MLOPs_Assignment_01"
+  }
+}

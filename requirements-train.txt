@@ -1,0 +1,4 @@
+# Training and evaluation use the shared package and plotting dependencies.
+-r requirements-eda.txt
+-r requirements-package.txt
+mlflow==3.17.0

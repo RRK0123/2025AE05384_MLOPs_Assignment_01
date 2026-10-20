@@ -1,0 +1,148 @@
+{
+  "run_id": "20261011T122915531678Z",
+  "created_at_utc": "2026-10-11T12:31:42.211552+00:00",
+  "selected_family": "logistic_regression",
+  "selection_rule": "Maximum mean outer-fold ROC-AUC; exact ties prefer Logistic Regression",
+  "selection_data": "train.csv only; test metrics do not enter model or parameter selection",
+  "train_rows": 242,
+  "test_rows": 61,
+  "seed": 42,
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "input_features": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "encoded_feature_count": 28,
+  "numeric_scaling": true,
+  "target_mapping": "num == 0 -> 0; num > 0 -> 1",
+  "positive_class": 1,
+  "prediction_policy": "classifier.predict; default 0.5 probability boundary",
+  "probabilities_calibrated": false,
+  "source_sha256": "a74b7efa387bc9d108d7d0115d831fe9b414b29ae7124f331b622b4efa0427c8",
+  "split_manifest_sha256": "2e245cdeba29f82f3ce32875891bf4186b0b201ebe596aa803b1a4b7f2d5e7da",
+  "training_csv_sha256": "f1ccd1602210ac0fa7665b1a82bb6c3ab96dba69ad47a7c4ef371c7818a99d38",
+  "test_csv_sha256": "56e7dc92e57fbf13315ea2c231edfd384eae7a46d1abc7a9cdbe10766bd85117",
+  "code_sha256": {
+    "__init__.py": "bb2db602ce83087e170a87dac2bbc9e1e4d769a8947b3a90a525ce2f474f276c",
+    "config.py": "fa5ac31e5353b254cf1634addb106c181b9ae322b759aa1e96c95861feb6c17b",
+    "data.py": "6801c4548dffcf1635fd31a962652ec4d32504e0cc1c39f7f73bcc9574d31ee2",
+    "download.py": "c44fd71f2a7de6dff868140775596c46791ae847756c748d2f42c0cc5366f4af",
+    "eda.py": "58012391e743e0ec18838747d7c7fef2b74bfc802869d00a7197cfaad4ea7f91",
+    "model_report.py": "1594fc32a6afca65e015cb0f076778cffab40b66f0ff0061a84678b353c0e96b",
+    "modeling.py": "958feb0032e0a4bc1c88c689a98b6e85310eccc292b3f5e65636ff719ebe1eac",
+    "plotting.py": "91391bc7adcb44b107fd88e56c5a20d39e3dfe572964e26190d4a98595c26752",
+    "predict.py": "32de0acb0f5369c986fdb0165bf74dfedfeb459eb752e398c9dbd798f125cd62",
+    "preprocessing.py": "352098a5ef0c9dee0046d9a92dbcb1f700cc33e9fc4cd6b41d05e97b8d0042ba",
+    "reporting.py": "8e693776032d347af9e03d48c199d6384fd7740c7521c0bfa16978333a44bfd0",
+    "schema.py": "8f6e431cca0c8304c9402f369045352b7f4396149f263ffd8656ba86413113d2",
+    "tracking.py": "b464c68bb2922896ad3d06163170e4dcf164b41610c2c640346b14a222fcb6cd",
+    "train.py": "cfd1bd5839e012da5100f8de7dd4198abfb644e5757c5a869d5ba434a56be9a7",
+    "validate.py": "02c0784de3b38430b59171d4b38418ed629d81f9d866a94e5f21b3fe9545e9b3",
+    "validate_model.py": "4a57b17fe61ac46ba0fe2c7c47873cd865463739992e0570f5954506fb37d1b7",
+    "validate_tracking.py": "86914baac38030e10d62f72de8b36f370e414710e2596a5676a54633ae36b52c"
+  },
+  "package_versions": {
+    "pandas": "3.0.6",
+    "numpy": "2.5.4",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2"
+  },
+  "parameter_grids": {
+    "logistic_regression": {
+      "classifier__C": [
+        0.1,
+        1.0,
+        10.0
+      ],
+      "classifier__class_weight": [
+        null,
+        "balanced"
+      ]
+    },
+    "random_forest": {
+      "classifier__max_depth": [
+        3,
+        null
+      ],
+      "classifier__min_samples_leaf": [
+        1,
+        4
+      ],
+      "classifier__class_weight": [
+        null,
+        "balanced"
+      ]
+    }
+  },
+  "final_searches": {
+    "logistic_regression": {
+      "parameters": {
+        "classifier__C": 0.1,
+        "classifier__class_weight": "balanced"
+      },
+      "tuning_roc_auc": 0.9110452349582785,
+      "candidate_count": 6,
+      "artifact_sha256": "1dce5717ccfa244993bae850762f4bb1410a8e8c17016d10fa0665d9b4246605"
+    },
+    "random_forest": {
+      "parameters": {
+        "classifier__class_weight": null,
+        "classifier__max_depth": null,
+        "classifier__min_samples_leaf": 4
+      },
+      "tuning_roc_auc": 0.9113470265644178,
+      "candidate_count": 8,
+      "artifact_sha256": "a898cb7b40f28a8e14412f41df452a0db437dde20ce22c933697578702981468"
+    }
+  },
+  "selected_parameters": {
+    "classifier__C": 0.1,
+    "classifier__class_weight": "balanced"
+  },
+  "test_metrics": {
+    "accuracy": 0.8852459016393442,
+    "precision": 0.8387096774193549,
+    "recall": 0.9285714285714286,
+    "roc_auc": 0.9653679653679654,
+    "brier_score": 0.08926030518609131,
+    "true_negative": 28,
+    "false_positive": 5,
+    "false_negative": 2,
+    "true_positive": 26
+  },
+  "model_sha256": "1dce5717ccfa244993bae850762f4bb1410a8e8c17016d10fa0665d9b4246605",
+  "serialization_roundtrip_verified": true,
+  "report_directory": "reports/modeling/20261011T122915531678Z",
+  "model_directory": "models/runs/20261011T122915531678Z",
+  "experiment_tracking": {
+    "tool": "MLflow",
+    "version": "3.17.0",
+    "experiment_name": "heart-disease-classification",
+    "experiment_id": "1",
+    "parent_run_id": "1f0aea13fb0149a9884359a40d072a02",
+    "backend_relative_path": "tracking/mlflow.db",
+    "artifacts_relative_path": "tracking/artifacts",
+    "final_model_run_ids": {
+      "logistic_regression": "780adb8dca6847c59e4b733ece1ecd84",
+      "random_forest": "60f53e6ef22e43e8b0e9017a2066b2d4"
+    },
+    "model_uris": {
+      "logistic_regression": "models:/m-b4ece24b2ffd4f1faa6016803058d698",
+      "random_forest": "models:/m-9b1e91be83a143e2b7e3e86128cf418d"
+    }
+  }
+}

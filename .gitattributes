@@ -1,0 +1,6 @@
+* text=auto eol=lf
+# Preserve hashes of recorded datasets, models and validation evidence.
+data/** -text
+models/** -text
+reports/** -text
+*.pdf -text

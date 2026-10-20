@@ -1,0 +1,3 @@
+# Full demonstration environment; Docker serving images do not install these tools.
+-r requirements-lock.txt
+-r requirements-suite-tools.txt

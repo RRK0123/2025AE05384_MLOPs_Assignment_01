@@ -1,0 +1,4 @@
+# Install the local package and plotting tools for reproducible EDA.
+-e .
+matplotlib==3.11.2
+seaborn==0.13.2

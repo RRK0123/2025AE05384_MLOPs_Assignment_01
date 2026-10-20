@@ -1,0 +1,11 @@
+{
+  "run_id": "20261017T071103958837Z",
+  "files": {
+    "bundle.json": "2f13afde5a17ec5b099f9b396132f078c12b57d3ea8dd9ec65bccaf73764b625",
+    "feature_schema.json": "ff2d25421a223dedb27a6da750aa518ef388fbb7f15a6365d8240e4521a0b832",
+    "metadata.json": "ab51a2da1d90171e1ff248487888d5cfb923f5c3610c8d7f8a6c8dda9d0d3290",
+    "model.joblib": "1dce5717ccfa244993bae850762f4bb1410a8e8c17016d10fa0665d9b4246605",
+    "model_validation.json": "e60b4fa72764152db3816f4606b31be164792fe9878c550234147ccf22f8c9fc",
+    "tracking_validation.json": "1daab529ebc5c1ea4ee75c85c9d6b7ed14ebb8b667a40934259e5df3f2837608"
+  }
+}

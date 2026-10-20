@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools==84.0.0", "wheel==0.48.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "heart-disease-mlops"
+version = "0.2.0"
+description = "Reproducible heart disease classification pipeline"
+requires-python = ">=3.13"
+dynamic = ["dependencies"]
+
+[project.scripts]
+heart-download = "heart_disease.download:main"
+heart-eda = "heart_disease.eda:main"
+heart-validate = "heart_disease.validate:main"
+heart-train = "heart_disease.train:main"
+heart-predict = "heart_disease.predict:main"
+heart-validate-model = "heart_disease.validate_model:main"
+heart-tracking-ui = "heart_disease.tracking:main"
+heart-validate-tracking = "heart_disease.validate_tracking:main"
+heart-package = "heart_disease.package_model:main"
+heart-verify-bundle = "heart_disease.verify_bundle:main"
+heart-api = "heart_disease.api:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["integration: requires a completed training workspace; CI generates it first"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

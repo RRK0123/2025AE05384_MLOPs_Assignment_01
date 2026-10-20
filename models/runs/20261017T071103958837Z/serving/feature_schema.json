@@ -1,0 +1,70 @@
+{
+  "fields": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "numeric_fields": [
+    "age",
+    "trestbps",
+    "chol",
+    "thalach",
+    "oldpeak"
+  ],
+  "categorical_codes": {
+    "sex": [
+      0,
+      1
+    ],
+    "cp": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "fbs": [
+      0,
+      1
+    ],
+    "restecg": [
+      0,
+      1,
+      2
+    ],
+    "exang": [
+      0,
+      1
+    ],
+    "slope": [
+      1,
+      2,
+      3
+    ],
+    "ca": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "thal": [
+      3,
+      6,
+      7
+    ]
+  },
+  "missing_values": "JSON null; imputed by the fitted model pipeline",
+  "excluded": [
+    "num",
+    "target"
+  ]
+}

@@ -1,0 +1,6 @@
+*
+!Dockerfile
+!requirements-api.txt
+!requirements-runtime.txt
+!bundle/
+!bundle/**

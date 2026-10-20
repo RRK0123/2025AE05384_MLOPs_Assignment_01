@@ -1,0 +1,131 @@
+name: Independent GitHub CI and CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: acceptance-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  quality:
+    name: CI - lint and unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PYTHONUNBUFFERED: "1"
+      PYTHONUTF8: "1"
+      MLFLOW_DISABLE_AGENT_HINT: "1"
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13.7"
+          cache: pip
+          cache-dependency-path: |
+            requirements*.txt
+            pyproject.toml
+      - name: Install pinned environment
+        run: |
+          mkdir -p reports/ci-install
+          set -o pipefail
+          python -m pip install -r requirements-acceptance.txt 2>&1 | tee reports/ci-install/install.log
+      - name: Lint and run unit tests with coverage
+        run: |
+          python -m pip check
+          python -m ruff check src tests scripts
+          python -m ruff format --check src tests scripts
+          mkdir -p reports/github-quality
+          python -m coverage run --branch --source=heart_disease,scripts.acceptance -m pytest -m "not integration" --junitxml=reports/github-quality/junit.xml
+          python -m coverage xml -o reports/github-quality/coverage.xml
+          python -m coverage html -d reports/github-quality/coverage
+      - name: Upload logs and diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ci-quality-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            reports/ci-install/
+            reports/github-quality/
+
+  deploy:
+    name: CD - fresh model, temporary Kubernetes, complete evidence
+    needs: quality
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    permissions:
+      contents: read
+      packages: write
+      issues: write
+    env:
+      PYTHONUNBUFFERED: "1"
+      PYTHONUTF8: "1"
+      MPLBACKEND: Agg
+      MLFLOW_DISABLE_AGENT_HINT: "1"
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      ACCEPTANCE_OUTPUT: reports/acceptance/github-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13.7"
+          cache: pip
+      - uses: actions/setup-go@v7
+        with:
+          go-version: "1.26.0"
+          cache: false
+      - name: Install environment, browser and cluster tooling
+        run: |
+          set -euo pipefail
+          mkdir -p reports/github-bootstrap
+          python -m pip install -r requirements-acceptance.txt 2>&1 | tee reports/github-bootstrap/install.log
+          python -m playwright install --with-deps chromium 2>&1 | tee reports/github-bootstrap/browser.log
+          go install sigs.k8s.io/kind@v0.33.0
+          go install sigs.k8s.io/cloud-provider-kind@v0.9.0
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+          curl --fail --location --output /tmp/kubectl https://dl.k8s.io/release/v1.37.0/bin/linux/amd64/kubectl
+          curl --fail --location --output /tmp/kubectl.sha256 https://dl.k8s.io/release/v1.37.0/bin/linux/amd64/kubectl.sha256
+          echo "$(cat /tmp/kubectl.sha256)  /tmp/kubectl" | sha256sum --check
+          sudo install -m 0755 /tmp/kubectl /usr/local/bin/kubectl
+          sudo apt-get update
+          sudo apt-get install -y xvfb xauth ffmpeg
+      - name: Run independent full suite and record its real virtual desktop
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -o pipefail
+          xvfb-run -a -s "-screen 0 1440x900x24" python -m scripts.acceptance.run --track github --output "$ACCEPTANCE_OUTPUT" 2>&1 | tee reports/github-bootstrap/execution.log
+      - name: Preserve final evidence even if a preceding step failed
+        if: always()
+        run: python -m scripts.acceptance.publish --output "$ACCEPTANCE_OUTPUT" --finalize
+      - name: Emergency cleanup of this run's temporary cluster
+        if: always()
+        run: python -m scripts.acceptance.publish --output "$ACCEPTANCE_OUTPUT" --cleanup
+      - name: Upload complete evidence archive
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: complete-github-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            reports/acceptance/*-evidence.zip
+            reports/github-bootstrap/
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: warn
