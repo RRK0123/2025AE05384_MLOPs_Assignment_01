@@ -289,3 +289,14 @@ https://doi.org/10.24432/C52P4X.
 Dataset page: https://archive.ics.uci.edu/dataset/45/heart+disease.
 License: Creative Commons Attribution 4.0 International (CC BY 4.0).
 The target indicates recorded disease presence, not future disease risk.
+
+## Verified Run_02 evidence
+
+Verified application revision: `a0ea223213b5575901b5282ec907a49481ce7780`.
+GitHub Actions run: `39448136993`.
+
+- [Execution evidence and videos](https://github.com/RRK0123/2025AE05384_MLOPs_Assignment_01/releases/tag/assignment-01-evidence)
+- [Execution screenshots](screenshots/)
+- [Reproduction instructions](docs/acceptance-suite.md)
+
+The Kubernetes cluster was temporary and was deleted after verification.
